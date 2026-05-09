@@ -1,78 +1,90 @@
-import Link from "next/link";
-import { GraduationCap, Github, X, Mail } from "lucide-react";
+"use client";
 
-export function Footer() {
+import React from "react";
+import Link from "next/link";
+import { Rocket, Mail, MessageCircle, Globe, Send } from "lucide-react";
+
+export const Footer = () => {
   return (
-    <footer className="bg-slate-950 border-t border-white/5 pt-20 pb-10">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-6 group">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <GraduationCap className="text-primary-foreground w-5 h-5" />
+    <footer id="contact" className="bg-background pt-24 pb-12 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          {/* Brand Column */}
+          <div className="flex flex-col gap-6">
+            <Link href="/" className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                <Rocket className="text-background w-6 h-6" />
               </div>
-              <span className="text-lg font-bold tracking-tight">
-                Study<span className="text-primary">Pal</span>
-              </span>
+              <span className="text-xl font-bold tracking-tight text-foreground">StudyPal</span>
             </Link>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
-              Revolutionizing the way students learn through personalized AI guidance and interactive educational tools.
+            <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
+              Empowering students in Ghana with AI-driven learning tools, personalized feedback, and comprehensive exam preparation.
             </p>
-            <div className="flex gap-4">
-              <Link href="#" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary transition-colors">
-                <X className="w-4 h-4" />
+            <div className="flex items-center gap-4">
+              <Link href="#" className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center hover:bg-primary transition-colors group border border-border">
+                <Globe className="w-4 h-4 text-muted-foreground group-hover:text-background" />
               </Link>
-              <Link href="#" className="p-2 rounded-full bg-white/5 hover:bg-primary/20 hover:text-primary transition-colors">
-                <Github className="w-4 h-4" />
+              <Link href="#" className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center hover:bg-primary transition-colors group border border-border">
+                <Send className="w-4 h-4 text-muted-foreground group-hover:text-background" />
+              </Link>
+              <Link href="#" className="w-10 h-10 bg-secondary rounded-full flex items-center justify-center hover:bg-primary transition-colors group border border-border">
+                <MessageCircle className="w-4 h-4 text-muted-foreground group-hover:text-background" />
               </Link>
             </div>
           </div>
 
+          {/* Quick Links */}
           <div>
-            <h4 className="font-bold mb-6">Product</h4>
-            <ul className="space-y-4">
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">Features</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">AI Tutor</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">Assessments</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">Pricing</Link></li>
+            <h4 className="font-bold text-foreground mb-6">Product</h4>
+            <ul className="flex flex-col gap-4">
+              <li><Link href="/features" className="text-sm text-muted-foreground hover:text-primary transition-colors">Features</Link></li>
+              <li><Link href="/#schools" className="text-sm text-muted-foreground hover:text-primary transition-colors">School Rankings</Link></li>
+              <li><Link href="/features#ai" className="text-sm text-muted-foreground hover:text-primary transition-colors">AI Tutor</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Pricing</Link></li>
             </ul>
           </div>
 
+          {/* Resources */}
           <div>
-            <h4 className="font-bold mb-6">Company</h4>
-            <ul className="space-y-4">
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">About Us</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">Careers</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">Blog</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary text-sm transition-colors">Contact</Link></li>
+            <h4 className="font-bold text-foreground mb-6">Company</h4>
+            <ul className="flex flex-col gap-4">
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Careers</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Blog</Link></li>
+              <li><Link href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Press</Link></li>
             </ul>
           </div>
 
+          {/* Support */}
           <div>
-            <h4 className="font-bold mb-6">Newsletter</h4>
-            <p className="text-muted-foreground text-sm mb-4">Get the latest updates on AI in education.</p>
-            <div className="flex gap-2">
-              <input 
-                type="email" 
-                placeholder="Email address" 
-                className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary w-full"
-              />
-              <button className="bg-primary text-primary-foreground p-2 rounded-lg hover:opacity-90 transition-opacity">
-                <Mail className="w-4 h-4" />
-              </button>
+            <h4 className="font-bold text-foreground mb-6">Support</h4>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <Mail className="w-4 h-4 text-primary" />
+                <span>hello@studypal.edu.gh</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <MessageCircle className="w-4 h-4 text-primary" />
+                <span>WhatsApp Support</span>
+              </div>
+              <div className="mt-4 flex flex-col gap-2 text-xs text-muted-foreground/60">
+                <p>Available Mon-Fri</p>
+                <p>8:00 AM - 6:00 PM</p>
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-muted-foreground text-xs">
-          <p>© {new Date().getFullYear()} StudyPal Inc. All rights reserved.</p>
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Cookie Policy</Link>
+        {/* Legal Bottom */}
+        <div className="pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-muted-foreground">
+          <p>© 2026 StudyPal Education. All rights reserved.</p>
+          <div className="flex items-center gap-8">
+            <Link href="#" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-foreground transition-colors">Cookie Policy</Link>
           </div>
         </div>
       </div>
     </footer>
   );
-}
+};

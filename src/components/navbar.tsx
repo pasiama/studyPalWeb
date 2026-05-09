@@ -1,24 +1,27 @@
 "use client";
 
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { GraduationCap, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import { Menu, X, Rocket } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-  { name: "Features", href: "#features" },
-  { name: "How it Works", href: "#how-it-works" },
-  { name: "Pricing", href: "#pricing" },
-  { name: "Testimonials", href: "#testimonials" },
+const navLinks = [
+  { name: "Home", href: "/" },
+  { name: "Features", href: "/features" },
+  { name: "About", href: "/about" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Schools", href: "/#schools" },
+  { name: "Contact", href: "/contact" },
 ];
 
-export function Navbar() {
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+import { ThemeToggle } from "./theme-toggle";
 
-  React.useEffect(() => {
+export const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -27,87 +30,92 @@ export function Navbar() {
   }, []);
 
   return (
-    <header
+    <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
-        isScrolled
-          ? "bg-background/80 backdrop-blur-lg border-white/10 py-3"
-          : "bg-transparent border-transparent py-5"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
+        isScrolled ? "bg-background/80 backdrop-blur-lg border-b border-white/5 py-3" : "bg-transparent"
       )}
     >
-      <nav className="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center group-hover:rotate-6 transition-transform">
-            <GraduationCap className="text-primary-foreground w-6 h-6" />
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center group-hover:rotate-12 transition-transform duration-300">
+            <Rocket className="text-background w-6 h-6" />
           </div>
-          <span className="text-xl font-bold tracking-tight">
-            Study<span className="text-primary">Pal</span>
-          </span>
+          <span className="text-xl font-bold tracking-tight text-foreground">StudyPal</span>
         </Link>
 
-        {/* Desktop Nav */}
+        {/* Desktop Links */}
         <div className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
+          {navLinks.map((link) => (
             <Link
-              key={item.name}
-              href={item.href}
-              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+              key={link.name}
+              href={link.href}
+              className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200"
             >
-              {item.name}
+              {link.name}
             </Link>
           ))}
         </div>
 
+        {/* CTA Buttons & Theme Toggle */}
         <div className="hidden md:flex items-center gap-4">
-          <Button variant="ghost" size="sm" className="font-medium">
-            Log in
-          </Button>
-          <Button size="sm" className="font-semibold shadow-lg shadow-primary/20">
-            Get Started
-          </Button>
+          <ThemeToggle />
+          <Link href="/waitlist">
+            <button className="text-sm font-medium text-foreground px-4 py-2 rounded-lg hover:bg-secondary transition-colors">
+              Get Started
+            </button>
+          </Link>
+          <button className="bg-primary text-background text-sm font-bold px-5 py-2.5 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20">
+            Download App
+          </button>
         </div>
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden p-2 text-muted-foreground"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle Menu"
+          className="md:hidden text-foreground p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X /> : <Menu />}
+          {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
-      </nav>
+      </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-card border-b border-white/10 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 right-0 bg-background border-b border-border p-6 md:hidden flex flex-col gap-6 shadow-xl"
           >
-            <div className="flex flex-col p-4 gap-4">
-              {navItems.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-lg font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-              <hr className="border-white/5" />
-              <div className="flex flex-col gap-3 pt-2 pb-4">
-                <Button variant="outline" className="w-full">
-                  Log in
-                </Button>
-                <Button className="w-full">Get Started</Button>
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-lg font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+            <div className="flex flex-col gap-3 pt-4 border-t border-border">
+              <div className="flex items-center justify-between px-2 mb-2">
+                <span className="text-sm font-medium text-muted-foreground">Appearance</span>
+                <ThemeToggle />
               </div>
+              <Link href="/waitlist" onClick={() => setIsMobileMenuOpen(false)}>
+                <button className="w-full py-3 text-foreground border border-border rounded-xl">
+                  Get Started
+                </button>
+              </Link>
+              <button className="w-full py-3 bg-primary text-background font-bold rounded-xl">
+                Download App
+              </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </nav>
   );
-}
+};

@@ -1,114 +1,88 @@
 "use client";
 
+import React from "react";
 import { motion } from "framer-motion";
 import { 
-  BrainCircuit, 
-  MessageSquare, 
-  Zap, 
-  Target, 
-  TrendingUp, 
-  ShieldCheck 
+  FileText, 
+  PenTool, 
+  LayoutDashboard, 
+  BarChart3, 
+  Trophy, 
+  Zap 
 } from "lucide-react";
 
 const features = [
   {
-    title: "Adaptive AI Tutoring",
-    description: "Our AI adjusts its teaching style based on your learning speed and comprehension level.",
-    icon: BrainCircuit,
-    color: "text-blue-400",
-    bg: "bg-blue-400/10",
+    title: "AI Practice Tests",
+    description: "Practice with timed objective exams that simulate real BECE & WASSCE conditions.",
+    icon: FileText,
   },
   {
-    title: "Interactive Q&A",
-    description: "Ask anything, anytime. Get instant, clear explanations for even the toughest concepts.",
-    icon: MessageSquare,
-    color: "text-yellow-400",
-    bg: "bg-yellow-400/10",
+    title: "Essay AI Marking",
+    description: "Get instant feedback on your compositions with AI analysis of grammar and structure.",
+    icon: PenTool,
   },
   {
-    title: "Instant Feedback",
-    description: "Receive real-time analysis of your practice answers to identify and fix mistakes immediately.",
+    title: "Parent Dashboard",
+    description: "Parents can link to their children's accounts and track academic growth in real-time.",
+    icon: LayoutDashboard,
+  },
+  {
+    title: "Teacher Insights",
+    description: "Teachers identify class-wide weak topics and monitor individual student performance.",
+    icon: BarChart3,
+  },
+  {
+    title: "School Rankings",
+    description: "See how your school compares across Ghana with subject-based leaderboards.",
+    icon: Trophy,
+  },
+  {
+    title: "Smart Analytics",
+    description: "AI-driven insights that pinpoint exactly which topics you need to study next.",
     icon: Zap,
-    color: "text-purple-400",
-    bg: "bg-purple-400/10",
-  },
-  {
-    title: "Smart Goal Setting",
-    description: "Define your academic targets and let StudyPal create a personalized roadmap to achieve them.",
-    icon: Target,
-    color: "text-green-400",
-    bg: "bg-green-400/10",
-  },
-  {
-    title: "Progress Analytics",
-    description: "Visualize your growth with detailed insights into your strengths and areas for improvement.",
-    icon: TrendingUp,
-    color: "text-red-400",
-    bg: "bg-red-400/10",
-  },
-  {
-    title: "Secure Learning",
-    description: "Your data and progress are protected with enterprise-grade security and privacy standards.",
-    icon: ShieldCheck,
-    color: "text-teal-400",
-    bg: "bg-teal-400/10",
   },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5 },
-  },
-};
-
-export function Features() {
+export const Features = () => {
   return (
-    <section id="features" className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Supercharge Your Learning</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Experience education like never before with our cutting-edge AI features designed for modern students.
-          </p>
-        </div>
-
+    <section id="features" className="py-24 bg-background/50 relative">
+      <div className="max-w-7xl mx-auto px-6">
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
         >
+          <div className="text-primary font-bold text-sm uppercase tracking-widest mb-4">Features</div>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
+            How StudyPal Changes Everything
+          </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            StudyPal turns traditional learning into a guided, data-driven, and AI-powered journey.
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <motion.div
-              key={index}
-              variants={itemVariants}
-              className="glass-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300"
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
+              className="glass-card p-8 rounded-[2rem] group cursor-default"
             >
-              <div className={`w-14 h-14 rounded-xl ${feature.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                <feature.icon className={`w-7 h-7 ${feature.color}`} />
+              <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:rotate-6 transition-all duration-300">
+                <feature.icon className="text-primary w-7 h-7 group-hover:text-background" />
               </div>
-              <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                {feature.description}
-              </p>
+              <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
-}
+};

@@ -1,49 +1,39 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
-const outfit = Outfit({
+const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
+
 export const metadata: Metadata = {
-  title: {
-    default: "StudyPal | Your AI-Powered Learning Companion",
-    template: "%s | StudyPal",
-  },
-  description: "Master any subject with StudyPal, the premium AI education platform. Personalized tutoring, interactive assessments, and futuristic learning tools.",
-  keywords: ["AI education", "study pal", "personalized learning", "AI tutor", "student tools"],
-  authors: [{ name: "StudyPal Team" }],
-  creator: "StudyPal",
+  title: "StudyPal | AI-Powered Learning for JHS & SHS Students in Ghana",
+  description: "StudyPal helps students in Ghana practice for BECE and WASSCE with AI tutoring, essay marking, and personalized learning insights.",
+  keywords: ["BECE", "WASSCE", "Ghana Education", "AI Tutor", "StudyPal", "JHS", "SHS", "Exam Preparation"],
   openGraph: {
-    title: "StudyPal | Your AI-Powered Learning Companion",
-    description: "Master any subject with StudyPal, the premium AI education platform.",
-    url: "https://studypal.ai",
+    title: "StudyPal | AI-Powered Learning for Ghana",
+    description: "The leading AI educational ecosystem in Ghana. Practice exams, track progress, and improve faster.",
+    url: "https://studypal.edu.gh",
     siteName: "StudyPal",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpg", // User should add this image later
         width: 1200,
         height: 630,
-        alt: "StudyPal Platform Preview",
       },
     ],
-    locale: "en_US",
+    locale: "en_GH",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "StudyPal | Your AI-Powered Learning Companion",
-    description: "The future of education is here.",
-    images: ["/og-image.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
 };
+
+import { ThemeProvider } from "@/components/theme-provider";
 
 export default function RootLayout({
   children,
@@ -51,16 +41,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
-        className={cn(
-          "min-h-screen bg-background font-sans antialiased selection:bg-primary/30 selection:text-primary",
-          outfit.variable
-        )}
+        className={`${inter.variable} ${spaceGrotesk.variable} antialiased bg-background text-foreground transition-colors duration-300`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-
