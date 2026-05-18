@@ -1,20 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { api } from "@/lib/api";
 
 export const ContactForm = () => {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: { preventDefault(): void; currentTarget: HTMLFormElement }) => {
     e.preventDefault();
+    setError(null);
     setStatus("loading");
-    
-    // Simulate API call
-    setTimeout(() => {
+
+    const data = new FormData(e.currentTarget);
+
+    try {
+      await api.sendContact({
+        name: data.get("name") as string,
+        email: data.get("email") as string,
+        role: data.get("role") as string,
+        subject: data.get("subject") as string,
+        message: data.get("message") as string,
+      });
       setStatus("success");
-    }, 2000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setStatus("idle");
+    }
   };
 
   return (
@@ -45,7 +59,7 @@ export const ContactForm = () => {
                 </div>
                 <h3 className="text-2xl font-bold text-foreground mb-4">Message Sent!</h3>
                 <p className="text-muted-foreground mb-8">Thank you for reaching out. Our team will contact you shortly.</p>
-                <button 
+                <button
                   onClick={() => setStatus("idle")}
                   className="text-primary font-bold hover:underline"
                 >
@@ -64,8 +78,9 @@ export const ContactForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-foreground ml-1">Full Name</label>
-                    <input 
+                    <input
                       required
+                      name="name"
                       type="text"
                       placeholder="John Doe"
                       className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -73,8 +88,9 @@ export const ContactForm = () => {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-foreground ml-1">Email Address</label>
-                    <input 
+                    <input
                       required
+                      name="email"
                       type="email"
                       placeholder="john@example.com"
                       className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -85,8 +101,9 @@ export const ContactForm = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-foreground ml-1">Your Role</label>
-                    <select 
+                    <select
                       required
+                      name="role"
                       className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all appearance-none"
                     >
                       <option value="student">Student</option>
@@ -97,8 +114,9 @@ export const ContactForm = () => {
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-foreground ml-1">Subject</label>
-                    <input 
+                    <input
                       required
+                      name="subject"
                       type="text"
                       placeholder="How can we help?"
                       className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -108,15 +126,23 @@ export const ContactForm = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-foreground ml-1">Message</label>
-                  <textarea 
+                  <textarea
                     required
+                    name="message"
                     rows={5}
                     placeholder="Tell us more about your inquiry..."
                     className="w-full bg-secondary border border-border rounded-xl px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
                   />
                 </div>
 
-                <button 
+                {error && (
+                  <div className="flex items-center gap-2 text-red-500 text-sm bg-red-500/10 px-4 py-3 rounded-xl">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    {error}
+                  </div>
+                )}
+
+                <button
                   disabled={status === "loading"}
                   type="submit"
                   className="w-full bg-primary text-background font-black py-4 rounded-xl flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"

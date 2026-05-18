@@ -1,17 +1,36 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Mail, Phone, School, CheckCircle2, Loader2, ArrowRight } from "lucide-react";
+import { User, Mail, Phone, School, CheckCircle2, Loader2, ArrowRight, AlertCircle } from "lucide-react";
+import { api } from "@/lib/api";
 
 export const WaitlistForm = () => {
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [error, setError] = useState<string | null>(null);
   const [role, setRole] = useState("student");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: { preventDefault(): void; currentTarget: HTMLFormElement }) => {
     e.preventDefault();
+    setError(null);
     setStatus("loading");
-    setTimeout(() => setStatus("success"), 2000);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      await api.joinWaitlist({
+        name: data.get("name") as string,
+        email: data.get("email") as string,
+        phone: data.get("phone") as string,
+        role,
+        school: (data.get("school") as string) || undefined,
+      });
+      setStatus("success");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setStatus("idle");
+    }
   };
 
   return (
@@ -31,7 +50,7 @@ export const WaitlistForm = () => {
                 </div>
                 <h3 className="text-3xl font-bold text-foreground mb-4">You're on the List!</h3>
                 <p className="text-muted-foreground mb-8">We'll notify you as soon as early access begins. Check your email for a special confirmation.</p>
-                <button 
+                <button
                   onClick={() => setStatus("idle")}
                   className="bg-secondary text-foreground px-6 py-3 rounded-xl font-bold hover:bg-secondary/80 transition-all"
                 >
@@ -46,7 +65,7 @@ export const WaitlistForm = () => {
                 exit={{ opacity: 0 }}
               >
                 <h2 className="text-3xl font-bold mb-8 text-center text-foreground">Join the Waitlist</h2>
-                
+
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Role Selector */}
                   <div className="grid grid-cols-3 gap-2 bg-secondary p-1.5 rounded-2xl border border-border mb-8">
@@ -67,8 +86,9 @@ export const WaitlistForm = () => {
                   <div className="space-y-4">
                     <div className="relative">
                       <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                      <input 
+                      <input
                         required
+                        name="name"
                         type="text"
                         placeholder="Full Name"
                         className="w-full bg-secondary border border-border rounded-2xl pl-12 pr-4 py-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -76,8 +96,9 @@ export const WaitlistForm = () => {
                     </div>
                     <div className="relative">
                       <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                      <input 
+                      <input
                         required
+                        name="email"
                         type="email"
                         placeholder="Email Address"
                         className="w-full bg-secondary border border-border rounded-2xl pl-12 pr-4 py-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -85,8 +106,9 @@ export const WaitlistForm = () => {
                     </div>
                     <div className="relative">
                       <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                      <input 
+                      <input
                         required
+                        name="phone"
                         type="tel"
                         placeholder="Phone Number (for SMS alerts)"
                         className="w-full bg-secondary border border-border rounded-2xl pl-12 pr-4 py-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -94,7 +116,8 @@ export const WaitlistForm = () => {
                     </div>
                     <div className="relative">
                       <School className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                      <input 
+                      <input
+                        name="school"
                         type="text"
                         placeholder="School Name (Optional)"
                         className="w-full bg-secondary border border-border rounded-2xl pl-12 pr-4 py-4 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -102,7 +125,14 @@ export const WaitlistForm = () => {
                     </div>
                   </div>
 
-                  <button 
+                  {error && (
+                    <div className="flex items-center gap-2 text-red-500 text-sm bg-red-500/10 px-4 py-3 rounded-xl">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      {error}
+                    </div>
+                  )}
+
+                  <button
                     disabled={status === "loading"}
                     type="submit"
                     className="w-full bg-primary text-background font-black py-5 rounded-[2rem] flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-primary/20 disabled:opacity-50"
