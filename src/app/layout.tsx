@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const inter = Inter({
@@ -16,12 +17,23 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: "StudyPal | AI-Powered Learning for JHS & SHS Students in Ghana",
-  description: "StudyPal helps students in Ghana practice for BECE and WASSCE with AI tutoring, essay marking, and personalized learning insights.",
-  keywords: ["BECE", "WASSCE", "Ghana Education", "AI Tutor", "StudyPal", "JHS", "SHS", "Exam Preparation"],
+  description:
+    "StudyPal helps students in Ghana practice for BECE and WASSCE with AI tutoring, essay marking, and personalized learning insights.",
+  keywords: [
+    "BECE",
+    "WASSCE",
+    "Ghana Education",
+    "AI Tutor",
+    "StudyPal",
+    "JHS",
+    "SHS",
+    "Exam Preparation",
+  ],
   openGraph: {
     title: "StudyPal | AI-Powered Learning for Ghana",
-    description: "The leading AI educational ecosystem in Ghana. Practice exams, track progress, and improve faster.",
-    url: "https://studypal.edu.gh",
+    description:
+      "The leading AI educational ecosystem in Ghana. Practice exams, track progress, and improve faster.",
+    url: "https://study-pal-web.vercel.app",
     siteName: "StudyPal",
     images: [
       {
