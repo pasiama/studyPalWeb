@@ -7,12 +7,13 @@ import { DifferentFeatures } from "@/sections/about/different";
 import { WhoWeServe } from "@/sections/about/who-we-serve";
 import { ImpactSection } from "@/sections/about/impact";
 import { ValuesSection } from "@/sections/about/values";
-import { TechStack } from "@/sections/about/tech-stack";
+// import { TechStack } from "@/sections/about/tech-stack";
 import { CTASection } from "@/sections/cta";
 
 export const metadata = {
   title: "About StudyPal | Reimagining Education in Ghana",
-  description: "Learn about StudyPal's mission to empower students in Ghana with AI-driven learning tools, personalized feedback, and comprehensive exam preparation.",
+  description:
+    "Learn about StudyPal's mission to empower students in Ghana with AI-driven learning tools, personalized feedback, and comprehensive exam preparation.",
 };
 
 export default function AboutPage() {
@@ -26,7 +27,7 @@ export default function AboutPage() {
       <WhoWeServe />
       <ImpactSection />
       <ValuesSection />
-      <TechStack />
+      {/* <TechStack /> */}
       <CTASection />
       <Footer />
     </main>

@@ -1,9 +1,41 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
+const TARGET_DATE = new Date("2026-09-01T00:00:00Z");
+
+function getTimeLeft() {
+  const now = new Date();
+  const diff = TARGET_DATE.getTime() - now.getTime();
+
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+    seconds: Math.floor((diff / 1000) % 60),
+  };
+}
+
 export const LaunchCountdown = () => {
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(getTimeLeft());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const units = [
+    { label: "Days", value: String(timeLeft.days).padStart(2, "0") },
+    { label: "Hours", value: String(timeLeft.hours).padStart(2, "0") },
+    { label: "Minutes", value: String(timeLeft.minutes).padStart(2, "0") },
+    { label: "Seconds", value: String(timeLeft.seconds).padStart(2, "0") },
+  ];
+
   return (
     <section className="py-24 bg-background">
       <div className="max-w-7xl mx-auto px-6">
@@ -18,18 +50,16 @@ export const LaunchCountdown = () => {
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
               <span className="text-xs font-bold uppercase tracking-widest text-foreground">Launching Soon</span>
             </div>
-            
-            <h2 className="text-4xl md:text-6xl font-black text-foreground mb-12 tracking-tight">
+
+            <h2 className="text-4xl md:text-6xl font-black text-foreground mb-4 tracking-tight">
               Preparing for National Rollout
             </h2>
+            <p className="text-muted-foreground text-sm font-medium uppercase tracking-[0.2em] mb-12">
+              June &ndash; August 2026
+            </p>
 
             <div className="flex flex-wrap justify-center gap-4 md:gap-12">
-              {[
-                { label: "Days", value: "24" },
-                { label: "Hours", value: "12" },
-                { label: "Minutes", value: "45" },
-                { label: "Seconds", value: "30" },
-              ].map((item) => (
+              {units.map((item) => (
                 <div key={item.label} className="flex flex-col items-center">
                   <div className="text-4xl md:text-6xl font-black text-primary mb-2 tabular-nums">
                     {item.value}

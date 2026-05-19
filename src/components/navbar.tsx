@@ -66,7 +66,11 @@ export const Navbar = () => {
               Get Started
             </button>
           </Link>
-          <button className="bg-primary text-background text-sm font-bold px-5 py-2.5 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/20">
+          <button
+            disabled
+            title="Coming Soon"
+            className="bg-primary/40 text-background text-sm font-bold px-5 py-2.5 rounded-xl opacity-50 cursor-not-allowed shadow-lg shadow-primary/10"
+          >
             Download App
           </button>
         </div>
@@ -109,7 +113,11 @@ export const Navbar = () => {
                   Get Started
                 </button>
               </Link>
-              <button className="w-full py-3 bg-primary text-background font-bold rounded-xl">
+              <button
+                disabled
+                title="Coming Soon"
+                className="w-full py-3 bg-primary/40 text-background font-bold rounded-xl opacity-50 cursor-not-allowed"
+              >
                 Download App
               </button>
             </div>

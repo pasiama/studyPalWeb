@@ -5,9 +5,17 @@ import { motion } from "framer-motion";
 import { CreditCard, Smartphone, ShieldCheck } from "lucide-react";
 
 const methods = [
-  { name: "Mobile Money", icon: Smartphone, description: "MTN, Vodafone, AirtelTigo" },
+  {
+    name: "Mobile Money",
+    icon: Smartphone,
+    description: "MTN, Vodafone, AirtelTigo",
+  },
   { name: "Bank Cards", icon: CreditCard, description: "Visa, Mastercard" },
-  { name: "Bank Transfer", icon: ShieldCheck, description: "Instant verification" },
+  {
+    name: "Bank Transfer",
+    icon: ShieldCheck,
+    description: "Instant verification",
+  },
 ];
 
 export const PaymentMethods = () => {
@@ -21,8 +29,10 @@ export const PaymentMethods = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">Flexible Payments for Everyone</h2>
-            <p className="text-muted-foreground text-lg">We use Paystack to ensure secure local payments in Ghana.</p>
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
+              Flexible Payments for Everyone
+            </h2>
+            {/* <p className="text-muted-foreground text-lg">We use Paystack to ensure secure local payments in Ghana.</p> */}
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
@@ -38,16 +48,20 @@ export const PaymentMethods = () => {
                 <div className="w-16 h-16 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <method.icon className="w-8 h-8" />
                 </div>
-                <h4 className="font-bold text-foreground mb-2">{method.name}</h4>
-                <p className="text-xs text-muted-foreground uppercase tracking-widest font-black">{method.description}</p>
+                <h4 className="font-bold text-foreground mb-2">
+                  {method.name}
+                </h4>
+                <p className="text-xs text-muted-foreground uppercase tracking-widest font-black">
+                  {method.description}
+                </p>
               </motion.div>
             ))}
           </div>
 
-          <div className="mt-12 flex justify-center items-center gap-2 text-muted-foreground text-sm font-medium">
+          {/* <div className="mt-12 flex justify-center items-center gap-2 text-muted-foreground text-sm font-medium">
             <ShieldCheck className="w-5 h-5 text-green-500" />
             Secure local payments powered by Paystack
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
