@@ -69,6 +69,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Analytics />
         </ThemeProvider>
 
         {/* Microsoft Clarity – heatmaps & session recordings */}
